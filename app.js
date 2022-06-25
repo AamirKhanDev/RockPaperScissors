@@ -49,3 +49,11 @@ function playRound(userChoice, compChoice) {
 }
 
 console.log(playRound(userChoice(), compChoice()))
+
+function game();
+for (let i = 0; i < 5; i++) {
+    if (playRound === 5) {
+        console.log("End of the game")
+    }
+
+}
