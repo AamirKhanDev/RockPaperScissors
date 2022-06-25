@@ -1,7 +1,3 @@
-const Rock = "rock";
-const Paper = "paper";
-const Scissors = "scissors";
-
 function userChoice() {
   const userChoice = prompt("Do you choose Rock, Paper, or Scissors?").toLowerCase();
   return userChoice
@@ -50,5 +46,5 @@ function playRound(userChoice, compChoice) {
 
 
 
-console.log(playRound(userChoice(), compChoice()))
+alert(playRound(userChoice(), compChoice()))
 
