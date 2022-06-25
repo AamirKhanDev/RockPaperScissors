@@ -1,50 +1,80 @@
-function userChoice() {
-  const userChoice = prompt("Do you choose Rock, Paper, or Scissors?").toLowerCase();
-  return userChoice
+const choices = ["rock", "paper", "scissors"];
+let winners = [];
+
+function game() {
+  for (let i = 1; i <= 5; i++) {
+    playRound(i);
+  }
+  document.querySelector("button").textContent = "Play new game";
+  logWins();
 }
 
-function compChoice() {
-  let compChoice = Math.random();
-  if (compChoice < 0.34) {
-    compChoice = "rock";
-  } else if (compChoice <= 0.67) {
-    compChoice = "paper";
+function playRound(round) {
+  const playerSelection = playerChoice();
+  const computerSelection = computerChoice();
+  const winner = checkWinner(playerSelection, computerSelection);
+  winners.push(winner);
+  logRound(playerSelection, computerSelection, winner, round);
+}
+
+function playerChoice() {
+  let input = prompt("Type Rock, Paper, or Scissors");
+  while (input == null) {
+    input = prompt("Type Rock, Paper, or Scissors");
+  }
+  input = input.toLowerCase();
+  let check = validateInput(input);
+  while (check == false) {
+    input = prompt(
+      "Type Rock, Paper, or Scissors. Spelling needs to be exact, but capitilization doesnt matter"
+    );
+    while (input == null) {
+      input = prompt("Type Rock, Paper, or Scissors");
+    }
+    input = input.toLowerCase();
+    check = validateInput(input);
+  }
+  return input;
+}
+
+function computerChoice() {
+  return choices[Math.floor(Math.random() * choices.length)];
+}
+
+function validateInput(choice) {
+  return choices.includes(choice);
+}
+
+function checkWinner(choiceP, choiceC) {
+  if (choiceP === choiceC) {
+    return "Tie";
+  } else if (
+    (choiceP === "rock" && choiceC == "scissors") ||
+    (choiceP === "paper" && choiceC == "rock") ||
+    (choiceP === "scissors" && choiceC == "paper")
+  ) {
+    return "Player";
   } else {
-    compChoice = "scissors";
-  }
-  return compChoice
-}
-
-function playRound(userChoice, compChoice) {
-  //Rock Choice
-  if (userChoice == "rock" && compChoice == "scissors") {
-    return "You Win! rock beats scissors!";
-  } else if (userChoice == "rock" && compChoice == "paper") {
-    return "Loser! paper Beats rock";
-  } else if (userChoice == "rock" && compChoice == "rock") {
-    return "It's a Draw";
-  }
-  //paper Choice
-  else if (userChoice == "paper" && compChoice == "rock") {
-    return "You Win! paper beats rock";
-  } else if (userChoice == "paper" && compChoice == "scissors") {
-    return "You Lose! scissors beats paper";
-  } else if (userChoice == "paper" && compChoice == "paper") {
-    return "It's a Draw";
-  }
-  //scissors Choice
-  else if (userChoice == "scissors" && compChoice == "paper") {
-    return "You win! scissors beat paper";
-  } else if (userChoice == "scissors" && compChoice == "rock") {
-    return "You Lose! rock beats scissors";
-  } else if (userChoice == "scissors" && compChoice == "scissors") {
-    return "It's a Draw";
-  } else {
-    return "Something Went Wrong";
+    return "Computer";
   }
 }
 
+function logWins() {
+  let playerWins = winners.filter((item) => item == "Player").length;
+  let computerWins = winners.filter((item) => item == "Computer").length;
+  let ties = winners.filter((item) => item == "Tie").length;
+  console.log("Results:");
+  console.log("Player Wins:", playerWins);
+  console.log("Computer Wins:", computerWins);
+  console.log("Ties:", ties);
+}
 
+function logRound(playerChoice, computerChoice, winner, round) {
+  console.log("Round:", round);
+  console.log("Player Chose:", playerChoice);
+  console.log("Computer Chose:", computerChoice);
+  console.log(winner, "Won the Round");
+  console.log("-------------------------------");
+}
 
-alert(playRound(userChoice(), compChoice()))
-
+game();
