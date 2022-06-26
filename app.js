@@ -1,80 +1,65 @@
-const choices = ["rock", "paper", "scissors"];
-let winners = [];
+const choices = ["rock", "paper", "scissors"]
+let playerScore = 0;
+let computerScore = 0;
+
+
+function computerPlay() {
+  //Computer choices
+ let random = choices[Math.floor(Math.random() * (choices.length))];
+ console.log(random);
+ return random;
+}
+
+function userPlay() {
+  //Player choices
+  let input = prompt("Please type rock, paper or scissors into the box");
+  console.log(input);
+  return input.toLowerCase();
+  
+}
 
 function game() {
-  for (let i = 1; i <= 5; i++) {
-    playRound(i);
-  }
-  document.querySelector("button").textContent = "Play new game";
-  logWins();
-}
-
-function playRound(round) {
-  const playerSelection = playerChoice();
-  const computerSelection = computerChoice();
-  const winner = checkWinner(playerSelection, computerSelection);
-  winners.push(winner);
-  logRound(playerSelection, computerSelection, winner, round);
-}
-
-function playerChoice() {
-  let input = prompt("Type Rock, Paper, or Scissors");
-  while (input == null) {
-    input = prompt("Type Rock, Paper, or Scissors");
-  }
-  input = input.toLowerCase();
-  let check = validateInput(input);
-  while (check == false) {
-    input = prompt(
-      "Type Rock, Paper, or Scissors. Spelling needs to be exact, but capitilization doesnt matter"
-    );
-    while (input == null) {
-      input = prompt("Type Rock, Paper, or Scissors");
+  //5 rounds of the game
+  for (let i = 0; i < 5; i++) {
+    let result = playRound(i);
+    console.log(result);
+    console.log(playerScore);
+    console.log(computerScore)
+    if (playerScore >= 3) {
+      console.log('----------------You win the game!-----------------')
+    } else if (computerScore >=3) {
+      console.log('----------------Computer wins the game!----------------')
     }
-    input = input.toLowerCase();
-    check = validateInput(input);
-  }
-  return input;
-}
+    }
+ }
 
-function computerChoice() {
-  return choices[Math.floor(Math.random() * choices.length)];
-}
 
-function validateInput(choice) {
-  return choices.includes(choice);
+function playRound(computerSelection, playerSelection,) {
+  computerSelection = computerPlay();
+  playerSelection = userPlay();
+ 
+if (playerSelection === computerSelection) {
+  return "Draw" }
+if (playerSelection === 'rock' && computerSelection === 'paper') {
+  computerScore ++ ;
+  return 'You lose, paper beats rock!';
+} else if (playerSelection === 'paper' && computerSelection === 'scissors') {
+  computerScore ++ ;
+  return 'You lose, scissors beat paper!';
+} else if (playerSelection === 'scissors' && computerSelection === 'paper') {
+  computerScore ++ ;
+  return 'You lose, rock beats scissors!';
+} else if (playerSelection === 'rock' && computerSelection === 'scissors') {
+  playerScore ++ ;
+  return 'You win, rock beats scissors!';
+} else if (playerSelection === 'paper' && computerSelection === 'rock') {
+  playerScore ++ ;
+  return 'You win, paper beats rock!';
+} else if (playerSelection === 'scissors' && computerSelection === 'paper') {
+  playerScore ++ ;
+  return 'You win, scissors beat paper!';
 }
-
-function checkWinner(choiceP, choiceC) {
-  if (choiceP === choiceC) {
-    return "Tie";
-  } else if (
-    (choiceP === "rock" && choiceC == "scissors") ||
-    (choiceP === "paper" && choiceC == "rock") ||
-    (choiceP === "scissors" && choiceC == "paper")
-  ) {
-    return "Player";
-  } else {
-    return "Computer";
-  }
-}
-
-function logWins() {
-  let playerWins = winners.filter((item) => item == "Player").length;
-  let computerWins = winners.filter((item) => item == "Computer").length;
-  let ties = winners.filter((item) => item == "Tie").length;
-  console.log("Results:");
-  console.log("Player Wins:", playerWins);
-  console.log("Computer Wins:", computerWins);
-  console.log("Ties:", ties);
-}
-
-function logRound(playerChoice, computerChoice, winner, round) {
-  console.log("Round:", round);
-  console.log("Player Chose:", playerChoice);
-  console.log("Computer Chose:", computerChoice);
-  console.log(winner, "Won the Round");
-  console.log("-------------------------------");
 }
 
 game();
+ 
