@@ -6,4 +6,9 @@ The concept was a Rock, paper, scissors game with the player being "prompted" to
 
 I included a small score board and each session lasts until either the player or the computer reaches 3 wins.
 
+Concepts practiced:
 
+1. for loops
+2. console.log
+3. if/else 
+4. psuedocoding
